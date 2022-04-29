@@ -28,7 +28,7 @@ function getSeason(date) {
 
   const dateObj = new Date(date);
   if (dateObj == ERROR){
-    throw new Error(ERROR_MSG);
+    throw new Error(INVALID_ARG_MSG);
   }
   const month = dateObj.getMonth();
   if (2 <= month && month <= 4){ return SPRING; }
