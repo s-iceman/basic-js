@@ -1,5 +1,3 @@
-const { NotImplementedError } = require('../extensions/index.js');
-
 /**
  * Extract season from given date and expose the enemy scout!
  * 
@@ -12,29 +10,40 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 
+
 const SPRING = 'spring';
 const SUMMER = 'summer';
 const AUTUMN = 'autumn';
 const WINTER = 'winter';
-const ERROR = 'Invalid Date';
-const INVALID_ARG_MSG = 'Invalid date!';
-const EMPTY_ARG_MSG = 'Unable to determine the time of year!'
+const ERROR_MSG = 'Invalid date!';
 
 
 function getSeason(date) {
-  if (!date){
-    return EMPTY_ARG_MSG;
+  if (!date){ return 'Unable to determine the time of year!'; }
+  try {
+    if (!(date instanceof Date) || isNaN(date)){
+      throw new TypeError();
+    }
   }
+  catch (e){ throw new Error(ERROR_MSG); }
 
-  const dateObj = new Date(date);
-  if (dateObj == ERROR){
-    throw new Error(INVALID_ARG_MSG);
+  const month = date.getMonth();
+  switch (month){
+    case 2:
+    case 3:
+    case 4:
+      return SPRING;
+    case 5:
+    case 6:
+    case 7:
+      return SUMMER;
+    case 8:
+    case 9:
+    case 10:
+      return AUTUMN;
+    default:
+      return WINTER;
   }
-  const month = dateObj.getMonth();
-  if (2 <= month && month <= 4){ return SPRING; }
-  if (5 <= month && month <= 7){ return SUMMER; }
-  if (8 <= month && month <= 10){ return AUTUMN; }
-  return WINTER;
 }
 
 module.exports = {
